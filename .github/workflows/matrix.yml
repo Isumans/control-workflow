@@ -2,11 +2,24 @@ name: matrix demo
 on: push
 jobs:
   matrix-demo:
-    runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
       matrix:
         node-version: [18.x, 20.x]
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 18.x
+            os: ubuntu-latest
+          - node-version: 20.x
+            os: ubuntu-latest
+          - node-version: 18.x
+            os: windows-latest
+          - node-version: 20.x
+            os: windows-latest
+        exclude:
+          - node-version: 18.x
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

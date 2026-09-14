@@ -69,8 +69,8 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reuse.yml
-      with:
-        artifact_name: dist-files
+    with:
+      artifact_name: dist-files
   report:
     needs: [lint, deploy]
     if: failure()

@@ -7,9 +7,15 @@ on:
         required: false
         default: dist
         type: string
+    outputs:
+      result:
+        description: result of the reusable workflow
+        value: ${{jobs.deploy.outputs.outcome}}
       
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.output_info.outputs.step-result }}
     runs-on: ubuntu-latest
     steps:
       - name: Get build artifacts
@@ -17,4 +23,5 @@ jobs:
         with:
           name: ${{ inputs.artifact_name }}
       - name: output information
-        run: echo "This is a reusable workflow"
+        id: output_info
+        run: echo "::set-output name=step-result::success"
